@@ -375,7 +375,7 @@
         }
 
         /* ========================================
-           ADAPTAÇÃO PARA CELULAR (Ajuste solicitado)
+           ADAPTAÇÃO PARA CELULAR (CORREÇÃO MENU)
            ======================================== */
         @media (max-width: 1000px) {
             body { 
@@ -383,34 +383,39 @@
                 height: auto; 
             }
             
-            /* O segredo para parar de seguir a tela: position static */
+            /* O menu agora fica fixo no fluxo da página, ele sobe quando vc desce */
             .main-nav { 
-                position: static; 
-                margin: 100px auto 20px auto; 
-                width: 90%;
+                position: relative; 
+                top: 0;
+                right: 0;
+                margin: 90px auto 10px auto; 
+                width: 95%;
                 display: flex;
                 flex-wrap: wrap; 
                 justify-content: center;
-                gap: 8px;
-                z-index: 1;
+                gap: 6px;
+                z-index: 10;
             }
 
             .nav-button, .joke-btn {
                 flex: 1 1 42%;
                 font-size: 9px;
-                padding: 10px 5px;
+                padding: 12px 5px;
                 clip-path: none;
                 text-align: center;
             }
 
+            /* Mantém APENAS um carro visível por vez */
             .car-container { 
                 grid-template-columns: 1fr; 
                 height: auto; 
                 padding: 10px 6% 100px 6%;
-                display: block; /* Garante que o conteúdo flua para baixo */
+                display: none; /* Esconde todos por padrão no mobile */
             }
 
-            .car-container.active { display: block; }
+            .car-container.active { 
+                display: block; /* Mostra apenas o ativo */
+            }
 
             .user-access-panel { 
                 width: 100%; 
@@ -418,6 +423,7 @@
                 top: 0; 
                 border-left: none; 
                 border-bottom: 2px solid var(--primary);
+                position: fixed; /* O painel de usuário continua fixo no topo */
             }
 
             .video-wrapper { 
@@ -434,12 +440,13 @@
             }
 
             .car-title h1 { 
-                font-size: 38px; 
+                font-size: 36px; 
                 text-align: center;
             }
 
             .specs-grid { 
                 grid-template-columns: 1fr 1fr; 
+                gap: 10px;
             }
 
             .footer-terminal { 
@@ -690,10 +697,17 @@
                 duration: 0.6,
                 ease: "power2.in",
                 onComplete: () => {
+                    sections.forEach(s => s.style.display = 'none'); // Garante que todos sumam
                     sections.forEach(s => s.classList.remove('active'));
                     navBtns.forEach(b => b.classList.remove('active'));
 
                     const target = document.getElementById(id);
+                    // Aplica o display correto dependendo da tela
+                    if(window.innerWidth > 1000) {
+                        target.style.display = 'grid';
+                    } else {
+                        target.style.display = 'block';
+                    }
                     target.classList.add('active');
                     btn.classList.add('active');
 
@@ -701,12 +715,8 @@
                     activeVid.currentTime = 0;
                     activeVid.play();
 
-                    // No mobile, após trocar de carro, volta pro topo para ver o novo vídeo
-                    if(window.innerWidth <= 1000) {
-                        window.scrollTo({top: 0, behavior: 'smooth'});
-                    } else {
-                        target.querySelector('.info-panel').scrollTop = 0;
-                    }
+                    // No mobile, volta pro topo para ver o novo vídeo
+                    window.scrollTo({top: 0, behavior: 'smooth'});
 
                     gsap.to(overlay, {
                         left: "100%",
@@ -728,7 +738,7 @@
             icon.innerText = muted ? "🔇" : "🔊";
         }
 
-        // 4. LÓGICA DA BOMBA DE PIADAS (ORIGINAL)
+        // 4. LÓGICA DA BOMBA DE PIADAS
         const proJokes = [
             "O dono da Ferrari não precisa de terapia, ele precisa de pista e pneu novo.",
             "O que é um ponto vermelho a 300km/h? O IPVA de uma Ferrari chegando.",
