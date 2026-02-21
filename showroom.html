@@ -375,26 +375,42 @@
         }
 
         /* ========================================
-           ADAPTAÇÃO APENAS PARA CELULAR (ÚNICA ADIÇÃO)
+           ADAPTAÇÃO PARA CELULAR (ÚNICA MUDANÇA)
            ======================================== */
         @media (max-width: 1000px) {
             body { overflow-y: auto; height: auto; }
             .car-container { 
                 grid-template-columns: 1fr; 
                 height: auto; 
-                padding-top: 160px; 
+                padding-top: 20px; /* Reduzido pois o nav agora é relativo */
                 padding-bottom: 100px;
             }
+
+            /* MUDANÇA: O menu deixa de ser fixo no mobile para não sobrepor */
             .main-nav { 
-                top: 80px; left: 10px; right: 10px; 
-                flex-wrap: wrap; justify-content: center;
+                position: relative; /* Mudado de fixed para relative */
+                top: 0; 
+                right: 0;
+                margin: 90px 10px 20px 10px; /* Margem para separar do painel de usuário */
+                flex-wrap: wrap; 
+                justify-content: center;
+                gap: 8px;
             }
+
+            .nav-button, .joke-btn {
+                flex: 1 1 42%; /* Organiza em grade */
+                font-size: 10px;
+                padding: 12px 5px;
+                text-align: center;
+                clip-path: none; /* Facilita clique no mobile */
+            }
+
             .user-access-panel { width: 100%; left: 0; top: 0; border-left: none; border-bottom: 2px solid var(--primary); }
             .video-wrapper { position: relative; top: 0; margin-bottom: 20px; }
             .info-panel { height: auto; overflow: visible; padding-right: 0; }
             .car-title h1 { font-size: 40px; }
             .specs-grid { grid-template-columns: 1fr 1fr; }
-            .footer-terminal { position: relative; flex-direction: column; gap: 10px; text-align: center; }
+            .footer-terminal { position: relative; flex-direction: column; gap: 15px; text-align: center; padding: 30px 10px;}
             .sound-toggle { bottom: 20px; right: 20px; }
         }
 
