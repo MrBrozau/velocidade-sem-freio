@@ -375,7 +375,7 @@
         }
 
         /* ========================================
-           ADAPTAÇÃO PARA CELULAR (CORREÇÃO MENU)
+           ADAPTAÇÃO PARA CELULAR (ÚNICA MUDANÇA)
            ======================================== */
         @media (max-width: 1000px) {
             body { 
@@ -383,18 +383,16 @@
                 height: auto; 
             }
             
-            /* O menu agora fica fixo no fluxo da página, ele sobe quando vc desce */
+            /* Menu fixo no fluxo: sobe com a página */
             .main-nav { 
                 position: relative; 
-                top: 0;
-                right: 0;
-                margin: 90px auto 10px auto; 
+                top: 0; right: 0;
+                margin: 90px auto 20px auto; 
                 width: 95%;
                 display: flex;
                 flex-wrap: wrap; 
                 justify-content: center;
-                gap: 6px;
-                z-index: 10;
+                gap: 8px;
             }
 
             .nav-button, .joke-btn {
@@ -405,58 +403,25 @@
                 text-align: center;
             }
 
-            /* Mantém APENAS um carro visível por vez */
+            /* CORREÇÃO CRÍTICA: Esconde o container se não for o ativo */
             .car-container { 
+                display: none !important; 
                 grid-template-columns: 1fr; 
                 height: auto; 
                 padding: 10px 6% 100px 6%;
-                display: none; /* Esconde todos por padrão no mobile */
             }
 
+            /* CORREÇÃO CRÍTICA: Mostra apenas o ativo selecionado pelo botão */
             .car-container.active { 
-                display: block; /* Mostra apenas o ativo */
+                display: block !important; 
             }
 
-            .user-access-panel { 
-                width: 100%; 
-                left: 0; 
-                top: 0; 
-                border-left: none; 
-                border-bottom: 2px solid var(--primary);
-                position: fixed; /* O painel de usuário continua fixo no topo */
-            }
-
-            .video-wrapper { 
-                position: relative; 
-                top: 0; 
-                margin-bottom: 30px; 
-                max-width: 100%;
-            }
-
-            .info-panel { 
-                height: auto; 
-                overflow: visible; 
-                padding-right: 0; 
-            }
-
-            .car-title h1 { 
-                font-size: 36px; 
-                text-align: center;
-            }
-
-            .specs-grid { 
-                grid-template-columns: 1fr 1fr; 
-                gap: 10px;
-            }
-
-            .footer-terminal { 
-                position: relative; 
-                flex-direction: column; 
-                gap: 15px; 
-                text-align: center; 
-                padding: 40px 10px;
-            }
-
+            .user-access-panel { width: 100%; left: 0; top: 0; border-left: none; border-bottom: 2px solid var(--primary); }
+            .video-wrapper { position: relative; top: 0; margin-bottom: 20px; }
+            .info-panel { height: auto; overflow: visible; padding-right: 0; }
+            .car-title h1 { font-size: 38px; }
+            .specs-grid { grid-template-columns: 1fr 1fr; }
+            .footer-terminal { position: relative; flex-direction: column; gap: 15px; text-align: center; padding: 40px 10px;}
             .sound-toggle { bottom: 20px; right: 20px; }
         }
 
@@ -697,17 +662,10 @@
                 duration: 0.6,
                 ease: "power2.in",
                 onComplete: () => {
-                    sections.forEach(s => s.style.display = 'none'); // Garante que todos sumam
                     sections.forEach(s => s.classList.remove('active'));
                     navBtns.forEach(b => b.classList.remove('active'));
 
                     const target = document.getElementById(id);
-                    // Aplica o display correto dependendo da tela
-                    if(window.innerWidth > 1000) {
-                        target.style.display = 'grid';
-                    } else {
-                        target.style.display = 'block';
-                    }
                     target.classList.add('active');
                     btn.classList.add('active');
 
@@ -715,7 +673,7 @@
                     activeVid.currentTime = 0;
                     activeVid.play();
 
-                    // No mobile, volta pro topo para ver o novo vídeo
+                    // No mobile, volta para o topo sempre que trocar de carro
                     window.scrollTo({top: 0, behavior: 'smooth'});
 
                     gsap.to(overlay, {
