@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>SuperCars Access</title>
+
+<style>
+
+/* RESET */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI, Arial, sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#000;
+overflow:hidden;
+color:white;
+}
+
+/* FUNDO ANIMADO */
+.background{
+position:absolute;
+width:100%;
+height:100%;
+background:radial-gradient(circle at center, #111 0%, #000 70%);
+z-index:-2;
+}
+
+.speed-lines{
+position:absolute;
+width:200%;
+height:200%;
+background:repeating-linear-gradient(
+90deg,
+rgba(255,0,0,0.05) 0px,
+rgba(255,0,0,0.05) 2px,
+transparent 2px,
+transparent 80px
+);
+animation:moveLines 4s linear infinite;
+z-index:-1;
+}
+
+@keyframes moveLines{
+from{ transform:translateX(0); }
+to{ transform:translateX(-500px); }
+}
+
+/* CAIXA LOGIN */
+.login-container{
+width:440px;
+padding:60px 50px;
+background:rgba(0,0,0,0.9);
+border-radius:25px;
+text-align:center;
+backdrop-filter:blur(10px);
+box-shadow:0 0 60px red;
+animation:zoomIn 1.2s ease;
+}
+
+@keyframes zoomIn{
+from{opacity:0; transform:scale(0.7);}
+to{opacity:1; transform:scale(1);}
+}
+
+h1{
+color:red;
+margin-bottom:20px;
+letter-spacing:3px;
+font-size:26px;
+}
+
+.subtitle{
+font-size:14px;
+color:#aaa;
+margin-bottom:30px;
+letter-spacing:1px;
+}
+
+/* INPUTS */
+.input-group{
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:15px;
+border-radius:12px;
+border:none;
+background:#111;
+color:white;
+font-size:16px;
+outline:none;
+transition:0.3s;
+}
+
+input:focus{
+box-shadow:0 0 20px red;
+transform:scale(1.02);
+}
+
+/* BOTÃO */
+button{
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+background:red;
+color:white;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+letter-spacing:1px;
+}
+
+button:hover{
+background:#cc0000;
+transform:scale(1.07);
+box-shadow:0 0 25px red;
+}
+
+/* MENSAGEM */
+.message{
+margin-top:20px;
+font-weight:bold;
+min-height:24px;
+}
+
+.error{
+color:#ff4444;
+}
+
+.success{
+color:#00ff99;
+}
+
+/* CRÉDITOS */
+.credits{
+position:absolute;
+bottom:25px;
+width:100%;
+text-align:center;
+font-size:14px;
+color:#555;
+letter-spacing:1px;
+}
+
+.credits span{
+color:red;
+font-weight:bold;
+}
+
+</style>
+</head>
+<body>
+
+<div class="background"></div>
+<div class="speed-lines"></div>
+
+<div class="login-container">
+
+<h1>ÁREA RESTRITA • SUPERCARS</h1>
+<div class="subtitle">Apenas pilotos autorizados podem entrar</div>
+
+<div class="input-group">
+<input type="text" id="usuario" placeholder="Digite seu nome">
+</div>
+
+<div class="input-group">
+<input type="password" id="senha" placeholder="Senha: Ferrari">
+</div>
+
+<button onclick="verificarLogin()">LIGAR MOTORES</button>
+
+<div id="mensagem" class="message"></div>
+
+</div>
+
+<div class="credits">
+Desenvolvido por <span>MrBrozau</span>
+</div>
+
+<script>
+
+function verificarLogin(){
+
+let usuario = document.getElementById("usuario").value.trim();
+let senha = document.getElementById("senha").value.trim();
+let mensagem = document.getElementById("mensagem");
+
+if(usuario === ""){
+mensagem.innerHTML = "Digite seu nome, piloto.";
+mensagem.className = "message error";
+return;
+}
+
+if(senha === "Ferrari"){
+
+localStorage.setItem("nomeUsuario", usuario);
+
+mensagem.innerHTML = "Acesso autorizado. Preparando ignição... 🏎️💨";
+mensagem.className = "message success";
+
+setTimeout(()=>{
+window.location.href = "showroom.html";
+},1500);
+
+}else{
+    // Mensagem de senha incorreta + zoeira
+    const frasesZoeira = [
+        "Só entra Ferrari! 🏎️🔥",
+        "Só piloto de Ferrari pode passar! 😎",
+        "Ops… só Ferrari aqui, tenta de novo! 🏁",
+        "Não é qualquer carro que passa, só Ferrari! 💨"
+    ];
+    let frase = frasesZoeira[Math.floor(Math.random() * frasesZoeira.length)];
+
+    mensagem.innerHTML = "Senha incorreta. " + frase;
+    mensagem.className = "message error";
+}
+
+}
+
+</script>
+
+</body>
+</html>
