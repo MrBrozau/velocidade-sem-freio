@@ -375,42 +375,81 @@
         }
 
         /* ========================================
-           ADAPTAÇÃO PARA CELULAR (ÚNICA MUDANÇA)
+           ADAPTAÇÃO PARA CELULAR (Ajuste solicitado)
            ======================================== */
         @media (max-width: 1000px) {
-            body { overflow-y: auto; height: auto; }
-            .car-container { 
-                grid-template-columns: 1fr; 
+            body { 
+                overflow-y: auto; 
                 height: auto; 
-                padding-top: 20px; /* Reduzido pois o nav agora é relativo */
-                padding-bottom: 100px;
             }
-
-            /* MUDANÇA: O menu deixa de ser fixo no mobile para não sobrepor */
+            
+            /* O segredo para parar de seguir a tela: position static */
             .main-nav { 
-                position: relative; /* Mudado de fixed para relative */
-                top: 0; 
-                right: 0;
-                margin: 90px 10px 20px 10px; /* Margem para separar do painel de usuário */
+                position: static; 
+                margin: 100px auto 20px auto; 
+                width: 90%;
+                display: flex;
                 flex-wrap: wrap; 
                 justify-content: center;
                 gap: 8px;
+                z-index: 1;
             }
 
             .nav-button, .joke-btn {
-                flex: 1 1 42%; /* Organiza em grade */
-                font-size: 10px;
-                padding: 12px 5px;
+                flex: 1 1 42%;
+                font-size: 9px;
+                padding: 10px 5px;
+                clip-path: none;
                 text-align: center;
-                clip-path: none; /* Facilita clique no mobile */
             }
 
-            .user-access-panel { width: 100%; left: 0; top: 0; border-left: none; border-bottom: 2px solid var(--primary); }
-            .video-wrapper { position: relative; top: 0; margin-bottom: 20px; }
-            .info-panel { height: auto; overflow: visible; padding-right: 0; }
-            .car-title h1 { font-size: 40px; }
-            .specs-grid { grid-template-columns: 1fr 1fr; }
-            .footer-terminal { position: relative; flex-direction: column; gap: 15px; text-align: center; padding: 30px 10px;}
+            .car-container { 
+                grid-template-columns: 1fr; 
+                height: auto; 
+                padding: 10px 6% 100px 6%;
+                display: block; /* Garante que o conteúdo flua para baixo */
+            }
+
+            .car-container.active { display: block; }
+
+            .user-access-panel { 
+                width: 100%; 
+                left: 0; 
+                top: 0; 
+                border-left: none; 
+                border-bottom: 2px solid var(--primary);
+            }
+
+            .video-wrapper { 
+                position: relative; 
+                top: 0; 
+                margin-bottom: 30px; 
+                max-width: 100%;
+            }
+
+            .info-panel { 
+                height: auto; 
+                overflow: visible; 
+                padding-right: 0; 
+            }
+
+            .car-title h1 { 
+                font-size: 38px; 
+                text-align: center;
+            }
+
+            .specs-grid { 
+                grid-template-columns: 1fr 1fr; 
+            }
+
+            .footer-terminal { 
+                position: relative; 
+                flex-direction: column; 
+                gap: 15px; 
+                text-align: center; 
+                padding: 40px 10px;
+            }
+
             .sound-toggle { bottom: 20px; right: 20px; }
         }
 
@@ -662,7 +701,12 @@
                     activeVid.currentTime = 0;
                     activeVid.play();
 
-                    target.querySelector('.info-panel').scrollTop = 0;
+                    // No mobile, após trocar de carro, volta pro topo para ver o novo vídeo
+                    if(window.innerWidth <= 1000) {
+                        window.scrollTo({top: 0, behavior: 'smooth'});
+                    } else {
+                        target.querySelector('.info-panel').scrollTop = 0;
+                    }
 
                     gsap.to(overlay, {
                         left: "100%",
