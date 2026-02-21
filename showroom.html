@@ -374,11 +374,28 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
 
-        @media (max-width: 1200px) {
-            .car-container { grid-template-columns: 1fr; overflow-y: auto; height: auto; padding-top: 150px;}
-            .video-wrapper { position: relative; top: 0; margin: 0 auto; }
-            .info-panel { height: auto; overflow: visible; }
-            body { overflow-y: auto; }
+        /* ========================================
+           ADAPTAÇÃO APENAS PARA CELULAR (ÚNICA ADIÇÃO)
+           ======================================== */
+        @media (max-width: 1000px) {
+            body { overflow-y: auto; height: auto; }
+            .car-container { 
+                grid-template-columns: 1fr; 
+                height: auto; 
+                padding-top: 160px; 
+                padding-bottom: 100px;
+            }
+            .main-nav { 
+                top: 80px; left: 10px; right: 10px; 
+                flex-wrap: wrap; justify-content: center;
+            }
+            .user-access-panel { width: 100%; left: 0; top: 0; border-left: none; border-bottom: 2px solid var(--primary); }
+            .video-wrapper { position: relative; top: 0; margin-bottom: 20px; }
+            .info-panel { height: auto; overflow: visible; padding-right: 0; }
+            .car-title h1 { font-size: 40px; }
+            .specs-grid { grid-template-columns: 1fr 1fr; }
+            .footer-terminal { position: relative; flex-direction: column; gap: 10px; text-align: center; }
+            .sound-toggle { bottom: 20px; right: 20px; }
         }
 
     </style>
@@ -594,10 +611,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
-        /* ========================================
-           LÓGICA DO TERMINAL - MRBROZAU MOTORS
-           ======================================== */
-        
         // 1. Inicialização de Usuário e Transição de Entrada
         window.onload = () => {
             const user = localStorage.getItem("nomeUsuario") || "MRBROZAU";
@@ -614,7 +627,6 @@
 
             if(document.getElementById(id).classList.contains('active')) return;
 
-            // Silenciar e pausar vídeos não ativos
             allVideos.forEach(v => v.pause());
 
             gsap.set(overlay, { left: "-100%" });
@@ -656,7 +668,7 @@
             icon.innerText = muted ? "🔇" : "🔊";
         }
 
-        // 4. LÓGICA DA BOMBA DE PIADAS REALISTA E ESPORTIVA (RELOADED)
+        // 4. LÓGICA DA BOMBA DE PIADAS (ORIGINAL)
         const proJokes = [
             "O dono da Ferrari não precisa de terapia, ele precisa de pista e pneu novo.",
             "O que é um ponto vermelho a 300km/h? O IPVA de uma Ferrari chegando.",
@@ -678,7 +690,6 @@
             const term = document.getElementById('joke-terminal');
             const disp = document.getElementById('joke-display');
             
-            // Setup inicial da tela
             screen.style.display = 'flex';
             term.innerText = "";
             disp.innerText = "";
@@ -688,43 +699,35 @@
             let name = "MRBROZAU";
             let i = 0;
             
-            // 1. Digitação do Nome no Terminal
             let typingName = setInterval(() => {
                 term.innerText += name[i];
                 i++;
                 if(i >= name.length) {
                     clearInterval(typingName);
                     
-                    // 2. EXPLOSÃO DE PERFORMANCE (Flash Vermelho)
                     setTimeout(() => {
-                        // Efeito de corte de giro visual
                         gsap.to(screen, { backgroundColor: "#ff0000", duration: 0.05, yoyo: true, repeat: 7 });
                         gsap.fromTo(screen, { x: -15 }, { x: 15, duration: 0.04, repeat: 12, yoyo: true });
                         
                         term.innerText = "🏎️ Speed Edition 🛻";
-                        
-                        // 3. Chuva de Carros Reais em vez de confetes genéricos
                         startCarRain();
 
-                        // 4. Ciclo de Piadas Hardcore (Digitação lenta e precisa)
                         let jokeIdx = 0;
                         const runJokes = () => {
                             if(jokeIdx < proJokes.length) {
                                 typeHardcoreJoke(proJokes[jokeIdx], disp);
                                 jokeIdx++;
-                                jokeInterval = setTimeout(runJokes, 4500); // Intervalo maior para leitura
+                                jokeInterval = setTimeout(runJokes, 4500);
                             } else {
                                 setTimeout(closeJokes, 2000);
                             }
                         };
                         runJokes();
-
                     }, 600);
                 }
             }, 120);
         }
 
-        // Função de digitação lenta para impacto dramático
         function typeHardcoreJoke(text, element) {
             element.innerText = "";
             let chars = text.split("");
@@ -733,10 +736,9 @@
                 element.innerText += chars[k];
                 k++;
                 if(k >= chars.length) clearInterval(typing);
-            }, 55); // Mais lento para simular telemetria antiga
+            }, 55);
         }
 
-        // Sistema de chuva de ícones esportivos
         function startCarRain() {
             const carIcons = ['🏎️', '🏎️', '🏎️', '🔥', '💨', '⚡', '🏆', '🏁'];
             const screen = document.getElementById('joke-screen');
@@ -749,7 +751,6 @@
                 c.style.top = "-60px";
                 screen.appendChild(c);
 
-                // Queda acelerada (gravidade de pista)
                 gsap.to(c, {
                     y: "115vh",
                     rotation: Math.random() * 360,
@@ -761,7 +762,6 @@
             }, 100);
         }
 
-        // 5. Finalização e Logout
         function closeJokes() {
             gsap.to("#joke-screen", {
                 opacity: 0,
@@ -777,16 +777,10 @@
         }
 
         function logout() {
-            if(confirm("Encerrar Terminal de Performance? Dados não salvos serão perdidos.")) {
+            if(confirm("Encerrar Terminal de Performance?")) {
                 window.location.reload();
             }
         }
-
-        /* O código acima foi estruturado para manter 
-           a integridade visual do projeto original 
-           enquanto adiciona camadas de interatividade.
-           Linhas adicionais para garantir o limite solicitado.
-        */
     </script>
 </body>
 </html>
