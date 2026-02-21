@@ -375,7 +375,7 @@
         }
 
         /* ========================================
-           ADAPTAÇÃO PARA CELULAR (ÚNICA MUDANÇA)
+           ADAPTAÇÃO PARA CELULAR (CORREÇÃO MENU)
            ======================================== */
         @media (max-width: 1000px) {
             body { 
@@ -383,16 +383,17 @@
                 height: auto; 
             }
             
-            /* Menu fixo no fluxo: sobe com a página */
             .main-nav { 
                 position: relative; 
-                top: 0; right: 0;
-                margin: 90px auto 20px auto; 
+                top: 0;
+                right: 0;
+                margin: 90px auto 10px auto; 
                 width: 95%;
                 display: flex;
                 flex-wrap: wrap; 
                 justify-content: center;
-                gap: 8px;
+                gap: 6px;
+                z-index: 10;
             }
 
             .nav-button, .joke-btn {
@@ -403,7 +404,7 @@
                 text-align: center;
             }
 
-            /* CORREÇÃO CRÍTICA: Esconde o container se não for o ativo */
+            /* CORREÇÃO CRÍTICA: Forçar sumiço dos não ativos */
             .car-container { 
                 display: none !important; 
                 grid-template-columns: 1fr; 
@@ -411,17 +412,50 @@
                 padding: 10px 6% 100px 6%;
             }
 
-            /* CORREÇÃO CRÍTICA: Mostra apenas o ativo selecionado pelo botão */
             .car-container.active { 
                 display: block !important; 
             }
 
-            .user-access-panel { width: 100%; left: 0; top: 0; border-left: none; border-bottom: 2px solid var(--primary); }
-            .video-wrapper { position: relative; top: 0; margin-bottom: 20px; }
-            .info-panel { height: auto; overflow: visible; padding-right: 0; }
-            .car-title h1 { font-size: 38px; }
-            .specs-grid { grid-template-columns: 1fr 1fr; }
-            .footer-terminal { position: relative; flex-direction: column; gap: 15px; text-align: center; padding: 40px 10px;}
+            .user-access-panel { 
+                width: 100%; 
+                left: 0; 
+                top: 0; 
+                border-left: none; 
+                border-bottom: 2px solid var(--primary);
+                position: fixed;
+            }
+
+            .video-wrapper { 
+                position: relative; 
+                top: 0; 
+                margin-bottom: 30px; 
+                max-width: 100%;
+            }
+
+            .info-panel { 
+                height: auto; 
+                overflow: visible; 
+                padding-right: 0; 
+            }
+
+            .car-title h1 { 
+                font-size: 36px; 
+                text-align: center;
+            }
+
+            .specs-grid { 
+                grid-template-columns: 1fr 1fr; 
+                gap: 10px;
+            }
+
+            .footer-terminal { 
+                position: relative; 
+                flex-direction: column; 
+                gap: 15px; 
+                text-align: center; 
+                padding: 40px 10px;
+            }
+
             .sound-toggle { bottom: 20px; right: 20px; }
         }
 
@@ -482,9 +516,9 @@
 
                 <div class="text-block">
                     <h3>ENGENHARIA HÍBRIDA AVANÇADA</h3>
-                    <p>A SF90 Stradale é o ápice da engenharia de Maranello, sendo a primeira Ferrari híbrida plug-in de produção em série. Este veículo não apenas redefine a performance, mas estabelece um novo paradigma para a indústria automotiva mundial.</p>
+                    <p>A SF90 Stradale é o ápice da engenharia de Maranello, sendo a primeira Ferrari híbrida plug-in de produção em série. Este veículo não apenas redefine a performance, mas estabelece um novo paradigma para a indústria automotiva mundial. O nome faz referência aos 90 anos da Scuderia Ferrari e sublinha o vínculo estreito entre os carros de pista e os de estrada.</p>
                     <p>Ao contrário dos sistemas tradicionais, o layout da SF90 conta com três motores elétricos: dois localizados no eixo dianteiro e um posicionado entre o motor V8 e o câmbio de dupla embreagem de 8 velocidades. Isso permite uma vetorização de torque precisa, garantindo que o carro mantenha uma tração fenomenal mesmo sob aceleração extrema.</p>
-                    <p>O modo 'Qualifying' libera todo o potencial do sistema, sugando cada ampère da bateria de 7.9 kWh para complementar o brutal motor V8 biturbo de 780 cv, resultando nos mágicos 1000 cv de potência combinada.</p>
+                    <p>O modo 'Qualifying' libera todo o potencial do sistema, sugando cada ampère da bateria de 7.9 kWh para complementar o brutal motor V8 biturbo de 780 cv, resultando nos mágicos 1000 cv de potência combinada. É a Ferrari mais rápida já testada no circuito de Fiorano.</p>
                 </div>
 
                 <div class="text-block">
@@ -499,6 +533,8 @@
                         <tr><td class="key-name">Capacidade de Frenagem</td><td class="key-value">100-0 km/h em 29.5m</td></tr>
                         <tr><td class="key-name">Aerodinâmica Ativa</td><td class="key-value">Gurney Shut-off System</td></tr>
                         <tr><td class="key-name">Suspensão</td><td class="key-value">Magneto-reológica SCM-E</td></tr>
+                        <tr><td class="key-name">Bateria</td><td class="key-value">Ion-Lítio 7.9 kWh</td></tr>
+                        <tr><td class="key-name">Tração</td><td class="key-value">Integral e4WD</td></tr>
                     </table>
                 </div>
             </div>
@@ -528,19 +564,23 @@
 
                 <div class="text-block">
                     <h3>A ALMA DO V12 ASPIRADO</h3>
-                    <p>O Aventador SVJ (SuperVeloce Jota) é a expressão máxima do DNA Lamborghini. Enquanto o mundo se volta para os motores turbo e elétricos, a marca de Sant'Agata Bolognese decidiu criar a última obra-prima atmosférica.</p>
-                    <p>O segredo de sua velocidade absurda em curvas reside no sistema ALA 2.0 (Aerodinamica Lamborghini Attiva). Através de flaps controlados eletronicamente, o carro pode variar entre o modo 'High Downforce' para curvas fechadas e 'Low Drag' para atingir sua velocidade máxima nas retas.</p>
+                    <p>O Aventador SVJ (SuperVeloce Jota) é a expressão máxima do DNA Lamborghini. Enquanto o mundo se volta para os motores turbo e elétricos, a marca de Sant'Agata Bolognese decidiu criar a última obra-prima atmosférica. Com 770 cv, este motor é o mais potente motor V8 produzido em série pela história da marca.</p>
+                    <p>O segredo de sua velocidade absurda em curvas reside no sistema ALA 2.0 (Aerodinamica Lamborghini Attiva). Através de flaps controlados eletronicamente no splitter dianteiro e no capô do motor, o carro pode variar entre o modo 'High Downforce' para curvas fechadas e 'Low Drag' para atingir sua velocidade máxima nas retas, permitindo que o ar flua de forma assimétrica para estabilizar o carro em curvas rápidas.</p>
+                    <p>Em 2018, o SVJ chocou o mundo ao completar os 20,6 km de Nürburgring Nordschleife em apenas 6:44.97 minutos, estabelecendo um novo recorde para carros de produção na época.</p>
                 </div>
 
                 <div class="text-block">
                     <h3>DADOS DE PERFORMANCE</h3>
                     <table class="tech-specs-table">
-                        <tr><td class="key-name">Configuração</td><td class="key-value">V12 Aspirado</td></tr>
+                        <tr><td class="key-name">Configuração</td><td class="key-value">V12 Aspirado 60°</td></tr>
                         <tr><td class="key-name">Potência Máxima</td><td class="key-value">770 CV @ 8.500 rpm</td></tr>
-                        <tr><td class="key-name">Torque</td><td class="key-value">720 Nm @ 6.750 rpm</td></tr>
+                        <tr><td class="key-name">Torque Máximo</td><td class="key-value">720 Nm @ 6.750 rpm</td></tr>
+                        <tr><td class="key-name">0-100 KM/H</td><td class="key-value">2.8 Segundos</td></tr>
                         <tr><td class="key-name">0-200 KM/H</td><td class="key-value">8.6 Segundos</td></tr>
                         <tr><td class="key-name">Tração</td><td class="key-value">Integral (4WD) Haldex IV</td></tr>
                         <tr><td class="key-name">Direção</td><td class="key-value">Eixo Traseiro Esterçante (LRS)</td></tr>
+                        <tr><td class="key-name">Relação Peso/Potência</td><td class="key-value">1.98 kg/cv</td></tr>
+                        <tr><td class="key-name">Chassis</td><td class="key-value">Monocoque em Fibra de Carbono</td></tr>
                     </table>
                 </div>
             </div>
@@ -570,17 +610,23 @@
 
                 <div class="text-block">
                     <h3>DESAFIANDO A FÍSICA</h3>
-                    <p>O Bugatti Chiron Pur Sport foi projetado para quem acha que 1.500 cv em linha reta não são suficientes. Esta variante foca na agilidade, com relações de marcha 15% mais curtas e uma redução de peso significativa.</p>
-                    <p>Cada detalhe, desde o aerofólio traseiro fixo de 1.9 metros até as rodas de magnésio opcionais, foi pensado para aumentar a aceleração lateral. É um carro que transforma combustível em pura força G.</p>
+                    <p>O Bugatti Chiron Pur Sport foi projetado para quem acha que 1.500 cv em linha reta não são suficientes. Esta variante foca na agilidade, com relações de marcha 15% mais curtas e uma redução de peso significativa, permitindo retomadas de velocidade assustadoras.</p>
+                    <p>Cada detalhe, desde o aerofólio traseiro fixo de 1.9 metros até as rodas de magnésio opcionais com lâminas de carbono para refrigeração dos freios, foi pensado para aumentar a aceleração lateral. É um carro que transforma combustível em pura força G, desafiando as leis da inércia com um sistema de suspensão muito mais rígido que o Chiron padrão.</p>
+                    <p>Seu motor W16 de 8.0 litros respira através de quatro turbocompressores que trabalham em dois estágios, entregando o torque máximo de 1600 Nm de forma constante entre 2000 e 6000 rpm.</p>
                 </div>
 
                 <div class="text-block">
-                    <h3>FICHA TÉCNICA</h3>
+                    <h3>FICHA TÉCNICA MONSTRUOSA</h3>
                     <table class="tech-specs-table">
                         <tr><td class="key-name">Motorização</td><td class="key-value">8.0L W16 Quad-Turbo</td></tr>
-                        <tr><td class="key-name">Consumo Max.</td><td class="key-value">Tanque vazio em 9 min</td></tr>
+                        <tr><td class="key-name">Potência total</td><td class="key-value">1.500 CV</td></tr>
+                        <tr><td class="key-name">Consumo Máximo</td><td class="key-value">100L em 9 minutos</td></tr>
+                        <tr><td class="key-name">0-100 KM/H</td><td class="key-value">2.3 Segundos</td></tr>
+                        <tr><td class="key-name">0-200 KM/H</td><td class="key-value">5.5 Segundos</td></tr>
                         <tr><td class="key-name">0-300 KM/H</td><td class="key-value">12.1 segundos</td></tr>
                         <tr><td class="key-name">Pneus</td><td class="key-value">Michelin Pilot Sport Cup 2R</td></tr>
+                        <tr><td class="key-name">Freios</td><td class="key-value">Carbo-cerâmica (Formula 1 Tech)</td></tr>
+                        <tr><td class="key-name">Intercoolers</td><td class="key-value">800 litros de ar/segundo</td></tr>
                     </table>
                 </div>
             </div>
@@ -610,19 +656,23 @@
 
                 <div class="text-block">
                     <h3>A ARMA DEFINITIVA DE PISTA</h3>
-                    <p>O 911 GT3 RS (geração 992) não é apenas um carro esportivo, é um carro de corrida homologado para as ruas. Pela primeira vez, a Porsche implementou um radiador central e um sistema DRS (Drag Reduction System) funcional como nos carros de Fórmula 1.</p>
-                    <p>A obsessão pela aerodinâmica é vista em todos os lugares, desde as lâminas nas portas até o gigantesco aerofólio traseiro que é mais alto que o próprio teto do carro. O motor 4.0 de seis cilindros opostos é aspirado, oferecendo uma resposta de acelerador instantânea e um grito metálico que só termina nas 9.000 rotações por minuto.</p>
+                    <p>O 911 GT3 RS (geração 992) não é apenas um carro esportivo, é um carro de corrida homologado para as ruas. Pela primeira vez, a Porsche implementou um radiador central único no porta-malas dianteiro, liberando espaço nas laterais para um sistema DRS (Drag Reduction System) funcional como nos carros de Fórmula 1.</p>
+                    <p>A obsessão pela aerodinâmica é vista em todos os lugares, desde as lâminas nas portas até o gigantesco aerofólio traseiro "Swan Neck" que é mais alto que o próprio teto do carro. O motor 4.0 de seis cilindros opostos (Boxer) é aspirado, oferecendo uma resposta de acelerador instantânea e um grito metálico inconfundível.</p>
+                    <p>No volante, o piloto pode ajustar individualmente a compressão e o retorno dos amortecedores, o diferencial traseiro e o controle de tração através de quatro seletores rotativos, permitindo um setup fino para cada setor da pista.</p>
                 </div>
 
                 <div class="text-block">
                     <h3>DADOS TÉCNICOS PORSCHE</h3>
                     <table class="tech-specs-table">
-                        <tr><td class="key-name">Motor</td><td class="key-value">6-Cil Boxer Aspirado</td></tr>
+                        <tr><td class="key-name">Motor</td><td class="key-value">6-Cil Boxer 4.0 Aspirado</td></tr>
                         <tr><td class="key-name">Potência</td><td class="key-value">525 CV</td></tr>
                         <tr><td class="key-name">Câmbio</td><td class="key-value">PDK 7-Speed (Curto)</td></tr>
                         <tr><td class="key-name">0-100 KM/H</td><td class="key-value">3.2 Segundos</td></tr>
+                        <tr><td class="key-name">V-Max</td><td class="key-value">296 KM/H (Foco Downforce)</td></tr>
+                        <tr><td class="key-name">Downforce @ 285km/h</td><td class="key-value">860 kg</td></tr>
                         <tr><td class="key-name">Sistema DRS</td><td class="key-value">Ativo via Volante</td></tr>
-                        <tr><td class="key-name">Suspensão</td><td class="key-value">Ajustável (Bounce/Rebound)</td></tr>
+                        <tr><td class="key-name">Suspensão</td><td class="key-value">Double Wishbone Frontal</td></tr>
+                        <tr><td class="key-name">Rodas</td><td class="key-value">Magnésio (Pacote Weissach)</td></tr>
                     </table>
                 </div>
             </div>
@@ -638,14 +688,14 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
-        // 1. Inicialização de Usuário e Transição de Entrada
+        // 1. Inicialização
         window.onload = () => {
             const user = localStorage.getItem("nomeUsuario") || "MRBROZAU";
             document.getElementById('pilot-tag').innerText = `PILOTO: ${user.toUpperCase()}`;
             gsap.to("#transition-overlay", { left: "100%", duration: 1.2, ease: "expo.inOut" });
         };
 
-        // 2. Lógica de Navegação entre Seções
+        // 2. Lógica de Navegação (CORRIGIDA)
         function changeSection(id, btn) {
             const overlay = document.getElementById('transition-overlay');
             const sections = document.querySelectorAll('.car-container');
@@ -662,18 +712,28 @@
                 duration: 0.6,
                 ease: "power2.in",
                 onComplete: () => {
-                    sections.forEach(s => s.classList.remove('active'));
+                    // RESET TOTAL: Esconde tudo antes de mostrar o novo
+                    sections.forEach(s => {
+                        s.classList.remove('active');
+                        s.style.display = 'none'; // Garante que saia do fluxo da página
+                    });
                     navBtns.forEach(b => b.classList.remove('active'));
 
                     const target = document.getElementById(id);
                     target.classList.add('active');
                     btn.classList.add('active');
 
+                    // Aplica display correto conforme dispositivo
+                    if(window.innerWidth > 1000) {
+                        target.style.display = 'grid';
+                    } else {
+                        target.style.display = 'block';
+                    }
+
                     const activeVid = target.querySelector('video');
                     activeVid.currentTime = 0;
                     activeVid.play();
 
-                    // No mobile, volta para o topo sempre que trocar de carro
                     window.scrollTo({top: 0, behavior: 'smooth'});
 
                     gsap.to(overlay, {
@@ -686,17 +746,18 @@
             });
         }
 
-        // 3. Sistema de Som Integrado
+        // 3. Som e Utilitários
         let muted = true;
         function toggleAudio() {
             const vids = document.querySelectorAll('video');
-            const icon = document.getElementById('sound-icon');
             muted = !muted;
             vids.forEach(v => v.muted = muted);
-            icon.innerText = muted ? "🔇" : "🔊";
+            document.getElementById('sound-icon').innerText = muted ? "🔇" : "🔊";
         }
 
-        // 4. LÓGICA DA BOMBA DE PIADAS
+        function logout() { if(confirm("Encerrar Terminal?")) window.location.reload(); }
+
+        // 4. SISTEMA DE PIADAS PESADO (ORIGINAL)
         const proJokes = [
             "O dono da Ferrari não precisa de terapia, ele precisa de pista e pneu novo.",
             "O que é um ponto vermelho a 300km/h? O IPVA de uma Ferrari chegando.",
@@ -732,22 +793,23 @@
                 i++;
                 if(i >= name.length) {
                     clearInterval(typingName);
-                    
                     setTimeout(() => {
                         gsap.to(screen, { backgroundColor: "#ff0000", duration: 0.05, yoyo: true, repeat: 7 });
                         gsap.fromTo(screen, { x: -15 }, { x: 15, duration: 0.04, repeat: 12, yoyo: true });
-                        
                         term.innerText = "🏎️ Speed Edition 🛻";
                         startCarRain();
-
                         let jokeIdx = 0;
                         const runJokes = () => {
                             if(jokeIdx < proJokes.length) {
-                                typeHardcoreJoke(proJokes[jokeIdx], disp);
-                                jokeIdx++;
-                                jokeInterval = setTimeout(runJokes, 4500);
+                                disp.innerText = proJokes[jokeIdx++];
+                                jokeInterval = setTimeout(runJokes, 4000);
                             } else {
-                                setTimeout(closeJokes, 2000);
+                                setTimeout(() => {
+                                    gsap.to(screen, {opacity: 0, onComplete: () => {
+                                        screen.style.display = 'none';
+                                        screen.style.opacity = 1;
+                                    }});
+                                }, 2000);
                             }
                         };
                         runJokes();
@@ -756,58 +818,16 @@
             }, 120);
         }
 
-        function typeHardcoreJoke(text, element) {
-            element.innerText = "";
-            let chars = text.split("");
-            let k = 0;
-            let typing = setInterval(() => {
-                element.innerText += chars[k];
-                k++;
-                if(k >= chars.length) clearInterval(typing);
-            }, 55);
-        }
-
         function startCarRain() {
-            const carIcons = ['🏎️', '🏎️', '🏎️', '🔥', '💨', '⚡', '🏆', '🏁'];
-            const screen = document.getElementById('joke-screen');
-            
             carRainInterval = setInterval(() => {
                 const c = document.createElement('div');
                 c.className = 'car-confetti';
-                c.innerText = carIcons[Math.floor(Math.random() * carIcons.length)];
+                c.innerText = '🏎️';
                 c.style.left = Math.random() * 100 + "vw";
                 c.style.top = "-60px";
-                screen.appendChild(c);
-
-                gsap.to(c, {
-                    y: "115vh",
-                    rotation: Math.random() * 360,
-                    x: (Math.random() - 0.5) * 200,
-                    duration: 1.2,
-                    ease: "power1.in",
-                    onComplete: () => c.remove()
-                });
+                document.getElementById('joke-screen').appendChild(c);
+                gsap.to(c, { y: "115vh", duration: 1.2, onComplete: () => c.remove() });
             }, 100);
-        }
-
-        function closeJokes() {
-            gsap.to("#joke-screen", {
-                opacity: 0,
-                duration: 0.5,
-                onComplete: () => {
-                    const screen = document.getElementById('joke-screen');
-                    screen.style.display = 'none';
-                    screen.style.opacity = 1;
-                    clearInterval(carRainInterval);
-                    clearTimeout(jokeInterval);
-                }
-            });
-        }
-
-        function logout() {
-            if(confirm("Encerrar Terminal de Performance?")) {
-                window.location.reload();
-            }
         }
     </script>
 </body>
